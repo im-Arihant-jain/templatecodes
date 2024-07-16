@@ -1,0 +1,21 @@
+int solve(vector <vector<pair<int,int>>> &adj,int n,vector &credit,int src,int des)
+{
+priority_queue <pair<int,p>,vector<pair<int,p>>,greater<pair<int,p>> > pq;
+pq.push({0,{src,credit[src]}});
+
+while(!pq.empty())
+{
+    int dis = pq.top().first;
+    int curr = pq.top().second.first;
+    int curr_credit = pq.top().second.second;
+    pq.pop();
+    if(curr==des) return dis;
+    
+    for(auto &x:adj[curr])
+    {
+        if(x.second>curr_credit) continue;
+        pq.push({dis+x.second,{x.first,curr_credit-x.second+credit[x.first]}});
+    }
+}
+return -1;
+}
